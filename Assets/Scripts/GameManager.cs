@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public void RandomWord()
     {
-        int num = Random.Range(1, 5);
+        int num = Random.Range(1, Dictionaries.WordDic.Count+1);
         _answer = num;
         SList = Dictionaries.WordDic[_answer].Translation;
         Question.text = null;
