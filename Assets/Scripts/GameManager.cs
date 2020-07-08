@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Text QaText;                                     //显示对错
     public static List<string> SList;                       //接收问题
     private int _answer;                                    //答案
+
     void Awake()
     {
         _answer = 0;
@@ -22,8 +23,10 @@ public class GameManager : MonoBehaviour
         
     }
 
+    //随机单词题目
     public void RandomWord()
     {
+        QaText.text = null;
         int num = Random.Range(1, Dictionaries.WordDic.Count+1);
         _answer = num;
         SList = Dictionaries.WordDic[_answer].Translation;
@@ -34,27 +37,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //回答问题按钮，判断答案是否正确
     public void AnswerWord()
     {
-        if (Answer.text== Dictionaries.WordDic[_answer].Name)
+        if (_answer != 0)
         {
-            Question.text = Dictionaries.WordDic[_answer].Name;
-            
-            foreach (var w in Dictionaries.WordDic[_answer].Translation)
+            if (Answer.text == Dictionaries.WordDic[_answer].Name)
             {
-                Question.text += "\n" + w;
-            }
-            Question.text += "\n" + "单词变形";
-            foreach (var w in Dictionaries.WordDic[_answer].Deformation)
-            {
-                Question.text += "\n" + w;
-            }
+                Question.text = Dictionaries.WordDic[_answer].Name;
 
-            QaText.text = "√";
+                foreach (var w in Dictionaries.WordDic[_answer].Translation)
+                {
+                    Question.text += "\n" + w;
+                }
+                Question.text += "\n" + "单词变形";
+                foreach (var w in Dictionaries.WordDic[_answer].Deformation)
+                {
+                    Question.text += "\n" + w;
+                }
+
+                QaText.text = "√";
+            }
+            else
+            {
+                QaText.text = "×";
+            }
         }
-        else
-        {
-            QaText.text = "×";
-        }
+        
     }
+
+    //跳转到记单词页面
+
 }

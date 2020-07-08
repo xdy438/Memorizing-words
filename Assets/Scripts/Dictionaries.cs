@@ -39,32 +39,32 @@ public class Dictionaries : MonoBehaviour
            string name = rootnode.ChildNodes[i].ChildNodes[0].InnerText;
            infoDic.Name = name;
 
-           string type = null;                                  //申请string用来接收
-           type = rootnode.ChildNodes[i].ChildNodes[1].InnerText;
-            string[] Strings = type.Split(',');
-           List<string> StrList=new List<string>();
-           foreach (var s in Strings)
+           string translationType = rootnode.ChildNodes[i].ChildNodes[1].InnerText;
+           string[] translation = translationType.Split(',');
+           List<string> traList = new List<string>();
+           foreach (var s in translation)
            {
-               StrList.Add(s);
+               traList.Add(s);
            }
 
-           infoDic.Translation = StrList;
+           infoDic.Translation = traList;
 
-           type = rootnode.ChildNodes[i].ChildNodes[2].InnerText;
-           Strings = type.Split(',');
-           StrList.Clear();
-           foreach (var s in Strings)
+           string deformationType = rootnode.ChildNodes[i].ChildNodes[2].InnerText;
+           string[] deformation = deformationType.Split(',');
+           List<string> defList = new List<string>();
+           foreach (var s in deformation)
            {
-               StrList.Add(s);
+               defList.Add(s);
            }
 
-           infoDic.Deformation = StrList;
+           infoDic.Deformation = defList;
 
            if (id != 0)
            {
                WordDic.Add(id, infoDic);
            }
        }
+
     }
 }
 public class Word
