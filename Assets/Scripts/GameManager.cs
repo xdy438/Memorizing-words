@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static List<string> SList;                       //接收问题
     private int _answer;                                    //答案
     public GameObject Remember;                             //记单词页面
+    public GameObject Dictation;                            //默写单词页面
 
     void Awake()
     {
@@ -22,6 +23,18 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    //跳转到记单词页面
+    public void RememberTheWords()
+    {
+        Remember.SetActive(true);
+    }
+
+    //跳转到默单词
+    public void DictationTheWords()
+    {
+        Dictation.SetActive(true);
     }
 
     //随机单词题目
@@ -67,10 +80,6 @@ public class GameManager : MonoBehaviour
         
     }
 
-    //跳转到记单词页面
-    public void RememberTheWords()
-    {
-        Remember.SetActive(true);
-    }
+    
 
 }
