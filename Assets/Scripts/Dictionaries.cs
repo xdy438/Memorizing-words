@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 
+//词典
 public class Dictionaries : MonoBehaviour
 {
     public static Dictionary<int, Word> WordDic
