@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Text QaText;                                     //显示对错
     public static List<string> SList;                       //接收问题
     private int _answer;                                    //答案
+    public GameObject Remember;                             //记单词页面
 
     void Awake()
     {
@@ -67,5 +68,8 @@ public class GameManager : MonoBehaviour
     }
 
     //跳转到记单词页面
-
+    public void RememberTheWords()
+    {
+        Remember.SetActive(true);
+    }
 }
