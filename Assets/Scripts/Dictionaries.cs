@@ -19,9 +19,9 @@ public class Dictionaries : MonoBehaviour
 
    void Read()
    {
-       TextAsset textAsset = (TextAsset)Resources.Load("单词");
-        XmlDocument xmldoc = new XmlDocument();
-        xmldoc.LoadXml(textAsset.text);                         //XML文件路径加载
+       TextAsset textAsset = (TextAsset) Resources.Load("单词");
+       XmlDocument xmldoc = new XmlDocument();
+       xmldoc.LoadXml(textAsset.text);                         //XML文件路径加载
 
         //找到根节点rood
         XmlNode rootnode = xmldoc.SelectSingleNode("root");
@@ -74,7 +74,7 @@ public class Word
 
     public string Name;
 
-    public List<string> Translation;                                //翻译
+    public List<string> Translation = new List<string>();           //翻译
 
-    public List<string> Deformation;                                //单词变形
+    public List<string> Deformation = new List<string>();           //单词变形
 }
