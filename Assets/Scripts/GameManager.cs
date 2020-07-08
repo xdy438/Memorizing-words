@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     private int _answer;                                    //答案
     public GameObject Remember;                             //记单词页面
     public GameObject Dictation;                            //默写单词页面
+    public GameObject Crud;                                 //增删改页面
+    public GameObject Check;                                //查单词页面
 
     void Awake()
     {
@@ -35,6 +37,18 @@ public class GameManager : MonoBehaviour
     public void DictationTheWords()
     {
         Dictation.SetActive(true);
+    }
+
+    //跳转到增删改
+    public void CRUD()
+    {
+        Crud.SetActive(true);
+    }
+
+    //跳转到查单词页面
+    public void CheckWord()
+    {
+        Check.SetActive(true);
     }
 
     //随机单词题目
