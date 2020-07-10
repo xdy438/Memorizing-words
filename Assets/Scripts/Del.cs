@@ -67,6 +67,7 @@ public class Del : MonoBehaviour
                         obj.GetComponent<WordInformation>().Deformation = Dictionaries.WordDic[i].Deformation;
                         obj.GetComponent<WordInformation>().Translation = Dictionaries.WordDic[i].Translation;
                         obj.GetComponent<WordInformation>().InputText = InputText;
+                        obj.GetComponent<WordInformation>().Type = 1;
                         obj.name = Dictionaries.WordDic[i].Name;
                     }
                 }
