@@ -151,11 +151,10 @@ public class Create : MonoBehaviour
                 xmldoc.Save(Application.dataPath + "/Resources/单词.XML");
 
                 Dictionaries.WordDic.Add(id, infoDic);
-                Debug.Log("成功");
             }
             else
             {
-                Debug.Log("有了");
+                //Debug.Log("有了");
             }
         }
         

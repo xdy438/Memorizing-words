@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Xml;
+using System.IO;
 
 //删除单词功能
 public class Del : MonoBehaviour
@@ -31,6 +33,7 @@ public class Del : MonoBehaviour
     {
         _contrast = null;
         _content = Frames.transform.GetChild(0).GetChild(0).gameObject;
+        Id = 0;
     }
 
     // Update is called once per frame
@@ -48,6 +51,14 @@ public class Del : MonoBehaviour
                 {
                     if (Dictionaries.WordDic[i].Name.Contains(InputText.text))
                     {
+                        if (Dictionaries.WordDic[i].Name==InputText.text)
+                        {
+                            Id = Dictionaries.WordDic[i].Id;
+                            Name = Dictionaries.WordDic[i].Name;
+                            Translation = Dictionaries.WordDic[i].Translation;
+                            Deformation = Dictionaries.WordDic[i].Deformation;
+
+                        }
                         GameObject obj = Instantiate(PreText);
                         obj.transform.SetParent(_content.transform);
                         obj.GetComponent<Text>().text = Dictionaries.WordDic[i].Name;
@@ -56,7 +67,7 @@ public class Del : MonoBehaviour
                         obj.GetComponent<WordInformation>().Deformation = Dictionaries.WordDic[i].Deformation;
                         obj.GetComponent<WordInformation>().Translation = Dictionaries.WordDic[i].Translation;
                         obj.GetComponent<WordInformation>().InputText = InputText;
-                        Debug.Log(1);
+                        obj.name = Dictionaries.WordDic[i].Name;
                     }
                 }
 
@@ -67,27 +78,7 @@ public class Del : MonoBehaviour
                 }
 
                 //如果搜出想要的则隐藏下拉框
-                if (InputText.text== _content.transform.GetChild(0).GetComponent<Text>().text)
-                {
-                    Debug.Log(1222);
-                    //TODO 显示单词信息
-                    Id = _content.transform.GetChild(0).GetComponent<WordInformation>().Id;
-                    Name = _content.transform.GetChild(0).GetComponent<WordInformation>().Name;
-                    Translation = _content.transform.GetChild(0).GetComponent<WordInformation>().Translation;
-                    Deformation = _content.transform.GetChild(0).GetComponent<WordInformation>().Deformation;
-                    Introduce.text = Name;
-                    foreach (var t in Translation)
-                    {
-                        Introduce.text += "\n" + t;
-                    }
-
-                    foreach (var d in Deformation)
-                    {
-                        Introduce.text += "\n" + d;
-                    }
-
-                    Frames.SetActive(false);
-                }
+                StartCoroutine(B());
             }
         }
         else
@@ -102,6 +93,88 @@ public class Del : MonoBehaviour
         for (int i = 0; i < _content.transform.childCount; i++)
         {
             Destroy(_content.transform.GetChild(i).gameObject);
+        }
+    }
+
+    //如果搜出想要的则隐藏下拉框,延迟进行，防止系统没法反应过来
+    public IEnumerator B()
+    {
+        yield return new WaitForSeconds(0.04f);
+        if (InputText.text == Name)
+        {
+            //TODO 显示单词信息
+            Introduce.text = Name;
+            foreach (var t in Translation)
+            {
+                Introduce.text += "\n" + t;
+            }
+
+            foreach (var d in Deformation)
+            {
+                Introduce.text += "\n" + d;
+            }
+
+            Frames.SetActive(false);
+        }
+        yield break;
+    }
+
+    //删除按钮
+    public void DelButton()
+    {
+        if (Id!=0)
+        {
+            //字典中移除
+            if (Id == Dictionaries.WordDic.Count)
+            {
+                Dictionaries.WordDic.Remove(Id);
+            }
+            else
+            {
+                for (int i = Id; i < Dictionaries.WordDic.Count; i++)
+                {
+                    Dictionaries.WordDic[i].Name = Dictionaries.WordDic[i + 1].Name;
+                    Dictionaries.WordDic[i].Deformation = Dictionaries.WordDic[i + 1].Deformation;
+                    Dictionaries.WordDic[i].Translation = Dictionaries.WordDic[i + 1].Translation;
+                }
+                Dictionaries.WordDic.Remove(Dictionaries.WordDic.Count);
+            }
+
+            //XML中移除
+            TextAsset textAsset = (TextAsset)Resources.Load("单词");
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(textAsset.text);                         //XML文件路径加载
+
+            //找到根节点rood
+            XmlNode rootnode = xmldoc.SelectSingleNode("root");
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            //删除节点
+            for (int i = nodes.Count - 1; i >= 0; i--)
+            {
+                XmlNode node = nodes[i];
+                if (node.Attributes["Id"] != null
+                    && node.Attributes["Id"].Value == ""+Id)
+                {
+                    node.ParentNode.RemoveChild(node);
+                }
+            }
+
+            //后节点前移
+            for (int i = Id-1; i < rootnode.ChildNodes.Count; i++)
+            {
+                var xmlAttributeCollection = rootnode.ChildNodes[i].Attributes;
+                if (xmlAttributeCollection != null)
+                {
+                    xmlAttributeCollection["Id"].InnerText = "" + (i+1);
+                    Debug.Log(xmlAttributeCollection["Id"].InnerText);
+                }
+
+            }
+            xmldoc.Save(Application.dataPath + "/Resources/单词.XML");
+            Id = 0;
+            InputText.gameObject.GetComponentInParent<InputField>().text = null;
+            Introduce.text = null;
+            Debug.Log("删除成功");
         }
     }
 }
