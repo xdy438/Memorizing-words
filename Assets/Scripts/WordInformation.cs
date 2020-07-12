@@ -32,6 +32,11 @@ public class WordInformation : MonoBehaviour
                 break;
             case 2:
                 UpdateGameObject.SetActive(true);
+                UpdateGameObject.GetComponent<DataWord>().Id = Id;
+                UpdateGameObject.GetComponent<DataWord>().Name = Name;
+                UpdateGameObject.GetComponent<DataWord>().Deformation = Deformation;
+                UpdateGameObject.GetComponent<DataWord>().Translation = Translation;
+                UpdateGameObject.GetComponent<DataWord>().Show();
                 SeGameObject.SetActive(false);
                 break;
         }

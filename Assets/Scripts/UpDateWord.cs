@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpDataWord : MonoBehaviour
+//改变单词控制器
+public class UpDateWord : MonoBehaviour
 {
     public Text InputText;                                  //输入框
 
